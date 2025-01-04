@@ -2,22 +2,28 @@ import React, { ChangeEvent, useEffect, useRef } from "react";
 import { Hero } from "../types/hero";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
+import { useMessages } from "../context/MessageContext";
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
 export default function HeroDetail() {
   const [hero, setHero] = useState<Hero | null>(null);
   const params = useParams();
+
+  const {addMessage} = useMessages();
   const fetched = useRef(false);
 
   useEffect(() => {
     if (!fetched.current) {
       fetch(`${apiUrl}/heroes/${params.id}`)
         .then((response) => response.json())
-        .then((data) => setHero(data));
+        .then((data) => {
+          setHero(data);
+          addMessage(`Hero ${data.name} Loaded`);
+        });
       fetched.current = true;
     }
-  }, [params.id]);
+  }, [params.id, addMessage]);
 
   if (!hero) return null;
 

@@ -1,4 +1,5 @@
 import { NavLink, Outlet } from "react-router-dom";
+import Message from "./components/Message";
 
 export default function App() {
   return (
@@ -19,7 +20,9 @@ export default function App() {
         <div className="flex-1">
           <Outlet />
         </div>
-        <div className="flex-1">Message Go Here</div>
+        <div className="flex-1">
+          <Message />
+        </div>
       </div>
     </>
   );
