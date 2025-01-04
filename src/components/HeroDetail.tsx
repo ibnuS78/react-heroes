@@ -1,8 +1,9 @@
-import React, { ChangeEvent, useEffect, useRef } from "react";
+import React, {  useEffect, useRef } from "react";
 import { Hero } from "../types/hero";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useMessages } from "../context/MessageContext";
+import HeroForm from "./HeroForm";
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -10,7 +11,7 @@ export default function HeroDetail() {
   const [hero, setHero] = useState<Hero | null>(null);
   const params = useParams();
 
-  const {addMessage} = useMessages();
+  const { addMessage } = useMessages();
   const fetched = useRef(false);
 
   useEffect(() => {
@@ -27,9 +28,11 @@ export default function HeroDetail() {
 
   if (!hero) return null;
 
-  const handleNameChanged = (event: ChangeEvent<HTMLInputElement>) => {
-    setHero({ ...hero, name: event.target.value });
-  };
+  // const handleNameChanged = (event: ChangeEvent<HTMLInputElement>) => {
+  //   setHero({ ...hero, name: event.target.value });
+  // };
+
+  
   return (
     <>
       <h2 className="text-2xl">Details</h2>
@@ -42,14 +45,7 @@ export default function HeroDetail() {
         <span className="uppercase">{hero.name}</span>
       </div>
       <div className="flex flex-col gap-2 mt-3 border-t">
-        <label>Hero Name</label>
-        <input
-          type="text"
-          placeholder="Hero Name"
-          className="border border-gray-300 rounded-lg p-2 w-1/4"
-          value={hero.name}
-          onChange={handleNameChanged}
-        ></input>
+        <HeroForm hero={hero} setHero={setHero} />
       </div>
     </>
   );
